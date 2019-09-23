@@ -11,9 +11,10 @@
 
 class ImageLoader{
 public:
-    ImageLoader();
-    cv::Mat load_image(std::string filename);
-    cv::Mat resize_image(cv::Mat large_image);
+    cv::Mat LoadImage(std::string filename);
+    cv::Mat ResizeImage(cv::Mat large_image);
+    std::vector<std::string> GetFileList(std::string root_path);
+    void DisplayImage(cv::Mat image);
 
 };
 
