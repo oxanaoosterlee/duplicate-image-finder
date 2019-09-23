@@ -3,4 +3,11 @@ project(Project)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Project main.cpp)
+find_package( OpenCV REQUIRED )
+
+add_executable(Project
+        main.cpp
+        image_loader.cpp
+        comparison_algorithm.cpp)
+
+target_link_libraries( Project ${OpenCV_LIBS})

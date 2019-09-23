@@ -1,3 +1,0 @@
-/home/oxana/Documents/Projects/Duplicate Image Search/Project/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/oxana/Documents/Projects/Duplicate Image Search/Project/cmake-build-debug/CMakeFiles/Project.dir
-/home/oxana/Documents/Projects/Duplicate Image Search/Project/cmake-build-debug/CMakeFiles/edit_cache.dir
