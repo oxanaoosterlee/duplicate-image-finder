@@ -10,7 +10,7 @@ find_package( OpenCV REQUIRED )
 
 add_executable(Project
         main.cpp
-        image_loader.cpp
-        comparison_algorithm.cpp)
+        indexer.cpp
+        comparison_algorithm.cpp Image.cpp Image.h)
 
 target_link_libraries( Project ${OpenCV_LIBS})
