@@ -4,6 +4,7 @@
 #include <iostream>
 #include <filesystem>
 #include <opencv2/core/core.hpp>
+#include <QtCore>
 
 #ifndef DUPLICATE_IMAGE_FINDER_IMAGEWITHDUPLICATES_H
 #define DUPLICATE_IMAGE_FINDER_IMAGEWITHDUPLICATES_H
@@ -14,23 +15,23 @@ class Image {
 
 private:
     cv::Mat image_;
-    std::filesystem::path path_;
+    QString path_;
 public:
-    const std::filesystem::path &getPath() const;
+    const QString & getPath() const;
 
 private:
 
 
-    struct duplicate_image_t  {std::filesystem::path path; double percentage;};
+    struct duplicate_image_t  {QString path; double percentage;};
     std::vector<duplicate_image_t> duplicate_images_;
 
 public:
-    Image(cv::Mat image, std::filesystem::path path_name);
+    Image(cv::Mat image, QString path_name);
 
     const cv::Mat &getImage();
     const std::string getPathString();
     const std::string getFileNameString();
-    void addDuplicateImage(std::filesystem::path path, double percentage);
+    void addDuplicateImage(QString path, double percentage);
     void printDuplicates();
 
 

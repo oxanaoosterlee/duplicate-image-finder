@@ -2,7 +2,7 @@
 #include "indexer.h"
 #include "comparison_algorithm.h"
 #include <chrono>
-
+#include <QtCore>
 
 using namespace std;
 using namespace chrono;
@@ -16,7 +16,7 @@ int main() {
 
     vector<Image> all_images;
 
-    all_images = image_loader.GenerateAllImagesList("/home/oxana/Documents/Projects/Duplicate Image Search/Images/");
+    all_images = image_loader.GenerateAllImagesList("/home/oxana/Documents/Projects/Duplicate Image Search/Images");
     algorithm.FindDuplicates(&all_images);
 
     for (auto image : all_images){

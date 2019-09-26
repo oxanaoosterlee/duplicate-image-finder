@@ -4,12 +4,12 @@
 
 #include <iostream>
 #include "indexer.h"
-#include <filesystem>
+#include <QDirIterator>
 
 ///media/Data/Pictures/Nova
 
 // Load image and directly apply greyscale and rescaling
-cv::Mat ImageIndexer::LoadImage(std::string filename) {
+cv::Mat ImageIndexer::LoadImage(const std::string& filename) {
     cv::Mat image = cv::imread(filename, cv::IMREAD_GRAYSCALE );
     if (image.data == NULL){
         std::cout << "Could not open image " << filename << std::endl;
@@ -36,18 +36,18 @@ void ImageIndexer::DisplayImage(cv::Mat image){
 
 std::vector<Image> ImageIndexer::GenerateAllImagesList(std::string root_path){
     std::vector<Image> image_list;
-    std::filesystem::path root_dir(root_path);
+    QString root = QString("/home/oxana/Documents/Projects/Duplicate Image Search/Images");
+
     //todo: try/catch statement for invalid path
     //todo: add more extensions if necessary
-    std::vector<std::string> extensions = {".jpg", ".JPG", ".PNG", ".png"};
-    for(auto& file: std::filesystem::recursive_directory_iterator(root_dir)){
-        for(auto &it : extensions){
-            std::filesystem::path path = file.path();
-            if(path.extension() == it){
-                Image new_image = Image(LoadImage(path.string()), path.string());
-                image_list.push_back(new_image);
-            }
-        }
+    //todo: no images found error/handler
+
+    QStringList extensions = {"*.jpg", "*.JPG", "*.PNG", "*.png"};
+    QDirIterator it(root, QStringList() << "*.jpg", QDir::NoFilter, QDirIterator::Subdirectories);//, QDirIterator::Subdirectories);
+    while(it.hasNext()) {
+        it.next();
+        Image new_image = Image(LoadImage(it.filePath().toStdString()), it.filePath());
+        image_list.push_back(new_image);
     }
     return image_list;
 }
