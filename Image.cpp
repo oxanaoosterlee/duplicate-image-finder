@@ -49,3 +49,7 @@ const std::string Image::getFileNameString() {
     return info.fileName().toStdString();
 }
 
+std::vector<Image::duplicate_image_t> Image::getDuplicateImages() {
+    return duplicate_images_;
+}
+

@@ -1,7 +1,7 @@
 #include <iostream>
 #include "indexer.h"
 #include "comparison_algorithm.h"
-#include "Window.h"
+#include "GUI/Window.h"
 #include <chrono>
 #include <QtCore>
 #include <QApplication>

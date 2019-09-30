@@ -33,6 +33,7 @@ public:
     const std::string getFileNameString();
     void addDuplicateImage(QString path, double percentage);
     void printDuplicates();
+    std::vector<duplicate_image_t> getDuplicateImages();
 
 
 

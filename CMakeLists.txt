@@ -30,7 +30,7 @@ include_directories("${PROJECT_BINARY_DIR}" ${Qt5Widgets_INCLUDES})
 add_executable(Project
         main.cpp
         indexer.cpp
-        comparison_algorithm.cpp Image.cpp Window.cpp Window.h)
+        comparison_algorithm.cpp Image.cpp GUI/Window.cpp GUI/Window.h)
 
 
 target_link_libraries(Project ${Qt5Widgets_LIBRARIES} ${OpenCV_LIBS} -lstdc++fs)

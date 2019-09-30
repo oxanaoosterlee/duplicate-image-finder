@@ -36,17 +36,18 @@ void ImageIndexer::DisplayImage(cv::Mat image){
 
 std::vector<Image> ImageIndexer::GenerateAllImagesList(std::string root_path){
     std::vector<Image> image_list;
-    QString root = QString("/home/oxana/Documents/Projects/Duplicate Image Search/Images");
-
+    QString root = QString::fromStdString(root_path);
+    //QString root = QString("/home/oxana/Documents/Projects/Duplicate Image Search/Images")
     //todo: try/catch statement for invalid path
     //todo: add more extensions if necessary
     //todo: no images found error/handler
 
     QStringList extensions = {"*.jpg", "*.JPG", "*.PNG", "*.png"};
-    QDirIterator it(root, QStringList() << "*.jpg", QDir::NoFilter, QDirIterator::Subdirectories);//, QDirIterator::Subdirectories);
+    QDirIterator it(root, extensions, QDir::NoFilter, QDirIterator::Subdirectories);//, QDirIterator::Subdirectories);
     while(it.hasNext()) {
         it.next();
         Image new_image = Image(LoadImage(it.filePath().toStdString()), it.filePath());
+        std::cout << "image: " << new_image.getFileNameString() << "\n";
         image_list.push_back(new_image);
     }
     return image_list;

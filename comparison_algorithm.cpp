@@ -48,8 +48,8 @@ void ComparisonAlgorithm::FindDuplicates(std::vector<Image> *all_images) {
     double euclidian_distance;
 
     // Compare img1 to img2
-    for(auto img1_ptr = all_images->begin() ; img1_ptr!= prev(all_images->end()); ++img1_ptr){
-        for(auto img2_ptr = next(img1_ptr); img2_ptr != all_images->end(); ++img2_ptr){
+    for(auto img1_ptr = all_images->begin() ; img1_ptr < prev(all_images->end()); ++img1_ptr){
+        for(auto img2_ptr = next(img1_ptr); img2_ptr < all_images->end(); ++img2_ptr){
             euclidian_distance = CalculateEuclidianDistance(img1_ptr->getImage(), img2_ptr->getImage());
             cout << "Comparing " << img1_ptr->getFileNameString() << " to " << img2_ptr->getFileNameString() << ": " << (1-euclidian_distance) * 100 << "% \n";
             if (euclidian_distance < treshold){
