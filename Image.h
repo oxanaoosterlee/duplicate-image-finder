@@ -18,11 +18,9 @@ private:
     QString path_;
 public:
     const QString & getPath() const;
+    struct duplicate_image_t  {QString path; double percentage;};
 
 private:
-
-
-    struct duplicate_image_t  {QString path; double percentage;};
     std::vector<duplicate_image_t> duplicate_images_;
 
 public:
@@ -33,7 +31,9 @@ public:
     const std::string getFileNameString();
     void addDuplicateImage(QString path, double percentage);
     void printDuplicates();
-    std::vector<duplicate_image_t> getDuplicateImages();
+    std::vector<duplicate_image_t>* getDuplicateImages();
+    std::vector<duplicate_image_t>::iterator getDuplicateImagesIterator();
+    double getDuplicateImagesAmt();
 
 
 
