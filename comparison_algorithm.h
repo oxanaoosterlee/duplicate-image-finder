@@ -10,6 +10,7 @@
 
 class ComparisonAlgorithm {
 public:
+    ~ComparisonAlgorithm();
     double CalculateIMED(cv::Mat image1, cv::Mat image2);
     int GetPixelIntensity(cv::Mat image, int x, int y);
     double CalculateEuclidianDistance(cv::Mat image1, cv::Mat image2);

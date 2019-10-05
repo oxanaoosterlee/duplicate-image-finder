@@ -12,6 +12,7 @@
 
 class ImageIndexer{
 public:
+    ~ImageIndexer(void);
     cv::Mat LoadImage(const std::string& filename);
     cv::Mat ResizeImage(cv::Mat large_image);
     std::vector<std::string> GetFileNameList(std::string root_path);

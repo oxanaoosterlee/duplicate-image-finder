@@ -1,7 +1,7 @@
 #include <iostream>
 #include "indexer.h"
 #include "comparison_algorithm.h"
-#include "GUI/Window.h"
+#include "GUI/MainWindow.h"
 #include <chrono>
 #include <QtCore>
 #include <QApplication>
@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
 //    }
 
     QApplication app(argc, argv);
-    Window window;
+    MainWindow window;
     window.show();
     return app.exec();
 

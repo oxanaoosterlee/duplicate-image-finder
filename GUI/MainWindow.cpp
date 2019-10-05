@@ -2,11 +2,11 @@
 // Created by oxana on 26-9-19.
 //
 
-#include "Window.h"
+#include "MainWindow.h"
 #include "../comparison_algorithm.h"
 #include "../indexer.h"
 
-Window::Window(QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent) :
         QWidget(parent) {
     // Set size of the window
     setFixedSize(1500, 1000);
@@ -16,11 +16,13 @@ Window::Window(QWidget *parent) :
 
 
     createImagePreviewGroupbox();
+    createMiniatureGroupBox();
     createImageInfoGroupBox();
     createNavigationGroupBox();
 
     main_layout = new QVBoxLayout;
     main_layout->addWidget(image_preview_groupbox);
+    main_layout->addWidget(miniature_groupbox);
     main_layout->addWidget(image_info_groupbox);
     main_layout->addWidget(button_bar_groupbox);
 
@@ -31,7 +33,7 @@ Window::Window(QWidget *parent) :
 }
 
 
-void Window::createImagePreviewGroupbox() {
+void MainWindow::createImagePreviewGroupbox() {
     QString image = "/home/oxana/Documents/Projects/Duplicate Image Search/Images/img4.jpg";
 
     image_preview_groupbox = new QGroupBox();
@@ -55,7 +57,7 @@ void Window::createImagePreviewGroupbox() {
     image_preview_groupbox->setLayout(layout);
 }
 
-void Window::createImageInfoGroupBox() {
+void MainWindow::createImageInfoGroupBox() {
     image_info_groupbox = new QGroupBox();
     QHBoxLayout *layout = new QHBoxLayout;
     image_1_text = new QLabel;
@@ -80,8 +82,53 @@ void Window::createImageInfoGroupBox() {
 
 }
 
-void Window::updateImageInfo(){
-    QFileInfo left_image_info = QFileInfo(first_image_ptr->getPath());
+void MainWindow::createMiniatureGroupBox(){
+    miniature_groupbox = new QGroupBox();
+    miniatureLayout = new QHBoxLayout;
+
+    QLabel *default_text = new QLabel;
+    default_text->setText("This image only has one duplicate");
+
+    miniatureLayout->addWidget(default_text);
+    miniature_groupbox->setLayout(miniatureLayout);
+
+}
+
+void MainWindow::updateMiniatures(){
+    std::cout << "Updating miniaturse \n";
+    // Delete all previous miniatures
+    while(miniatureLayout->itemAt(0) != 0){
+        delete miniatureLayout->itemAt(0)->widget();
+    }
+
+    double miniaturesAmt = first_image_ptr->getDuplicateImagesAmt();
+    miniatureLayout->addWidget(addMiniature(first_image_ptr->getPath()));
+    for (int i = 0; i < miniaturesAmt; i++){
+        miniatureLayout->addWidget(addMiniature(second_image_ptr->path));
+        second_image_ptr++;
+    }
+
+    std::cout << "Updating miniatures finished \n";
+}
+
+QLabel* MainWindow::addMiniature(QString path) {
+    // Define size of miniature
+    // Get image
+    // Return widget
+    // ?? Make image clickable
+    QLabel* miniature = new QLabel();
+
+    int framesize = 100;
+    auto qpixmap = new QPixmap;
+    qpixmap->load(path);
+    miniature->setPixmap(qpixmap->scaled(framesize, framesize, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    delete qpixmap;
+    return miniature;
+}
+
+void MainWindow::updateImageInfo(){
+    std::cout << "Updating image info. \n";
+    QFileInfo left_image_info =  QFileInfo(first_image_ptr->getPath());
     QFileInfo right_image_info = QFileInfo(second_image_ptr->path);
 
     QString left_info = left_image_info.fileName() + "\n" +
@@ -104,9 +151,15 @@ void Window::updateImageInfo(){
     image_2_text->setText(right_info);
     label_text->setText(label_info);
 
+    left_image_info.~QFileInfo();
+    right_image_info.~QFileInfo();
+
+    std::cout << "Info updated \n";
+
+
 }
 
-void Window::createNavigationGroupBox() {
+void MainWindow::createNavigationGroupBox() {
     // search_folder_input = new QLineEdit(this);
     button_bar_groupbox = new QGroupBox;
     QHBoxLayout *layout = new QHBoxLayout;
@@ -119,14 +172,14 @@ void Window::createNavigationGroupBox() {
     layout->addWidget(prev_button);
     layout->addWidget(next_button);
 
-    connect(next_button, &QPushButton::clicked, this, &Window::nextButtonClicked);
-    connect(search_button, &QPushButton::clicked, this, &Window::searchButtonClicked);
-    connect(prev_button, &QPushButton::clicked, this, &Window::prevButtonClicked);
+    connect(next_button, &QPushButton::clicked, this, &MainWindow::nextButtonClicked);
+    connect(search_button, &QPushButton::clicked, this, &MainWindow::searchButtonClicked);
+    connect(prev_button, &QPushButton::clicked, this, &MainWindow::prevButtonClicked);
 
     button_bar_groupbox->setLayout(layout);
 }
 
-void Window::searchButtonClicked() {
+void MainWindow::searchButtonClicked() {
     ImageIndexer image_loader;
     ComparisonAlgorithm algorithm;
     //all_images = image_loader.GenerateAllImagesList("/home/oxana/Documents/Projects/Duplicate Image Search/Images");
@@ -136,10 +189,14 @@ void Window::searchButtonClicked() {
     for (auto image : all_images) {
         image.printDuplicates();
     }
+    image_loader.~ImageIndexer();
+    algorithm.~ComparisonAlgorithm();
+
 
 }
 
-void Window::nextButtonClicked() {
+void MainWindow::nextButtonClicked() {
+    std::cout << "Next button clicked" << "\n";
     do { first_image_ptr++; }
     while (
             first_image_ptr->getDuplicateImagesAmt() == 0
@@ -149,9 +206,11 @@ void Window::nextButtonClicked() {
 
     updateImagePreview(first_image_ptr->getPath(), second_image_ptr->path);
     updateImageInfo();
+    //updateMiniatures();
+    std::cout << "Next button clicked \n";
 }
 
-void Window::prevButtonClicked() {
+void MainWindow::prevButtonClicked() {
     do { first_image_ptr--; }
     while (
             first_image_ptr->getDuplicateImagesAmt() == 0
@@ -162,19 +221,23 @@ void Window::prevButtonClicked() {
 
     updateImagePreview(first_image_ptr->getPath(), second_image_ptr->path);
     updateImageInfo();
+    updateMiniatures();
 }
 
-void Window::updateImagePreview(QString left_path, QString right_path) {
+void MainWindow::updateImagePreview(QString left_path, QString right_path) {
     std::cout << "left image: " << left_path.toStdString() << "\n";
     std::cout << "right image: " << right_path.toStdString() << "\n";
 
     auto qpixmap1 = new QPixmap;
     qpixmap1->load(left_path);
     image_left->setPixmap(qpixmap1->scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    //delete qpixmap1;
 
 
     auto qpixmap2 = new QPixmap;
     qpixmap2->load(first_image_ptr->getDuplicateImagesIterator()->path);
     image_right->setPixmap(qpixmap2->scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    //delete qpixmap2;
+    std::cout << "Image preview updated" <<  "\n";
 }
 

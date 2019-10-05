@@ -2,8 +2,8 @@
 // Created by oxana on 26-9-19.
 //
 
-#ifndef DUPLICATE_IMAGE_FINDER_WINDOW_H
-#define DUPLICATE_IMAGE_FINDER_WINDOW_H
+#ifndef DUPLICATE_IMAGE_FINDER_MAINWINDOW_H
+#define DUPLICATE_IMAGE_FINDER_MAINWINDOW_H
 
 #include <QWidget>
 #include <QPushButton>
@@ -12,12 +12,12 @@
 #include <QtWidgets>
 #include "../Image.h"
 
-class Window : public QWidget {
+class MainWindow : public QWidget {
 
     Q_OBJECT
 
 public:
-    explicit Window(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = 0);
 
 
 
@@ -29,17 +29,19 @@ public slots:
 private:
 
     void createImagePreviewGroupbox();
+    void createMiniatureGroupBox();
     void createImageInfoGroupBox();
-    void createDuplicateNavigationGroupbox();
     void createNavigationGroupBox();
 
+    QLabel* addMiniature(QString path);
+    void updateMiniatures();
     void updateImageInfo();
     void updateImagePreview(QString left_path, QString right_path);
 
     QVBoxLayout *main_layout;
     QGroupBox *image_preview_groupbox;
     QGroupBox *image_info_groupbox;
-    QGroupBox *duplicate_navigation_groupbox;
+    QGroupBox *miniature_groupbox;
     QGroupBox *button_bar_groupbox;
 
     QLabel* image_left;
@@ -47,6 +49,8 @@ private:
     QLabel* image_1_text;
     QLabel* image_2_text;
     QLabel* label_text;
+
+    QHBoxLayout *miniatureLayout;
 
     QPushButton *search_button;
     QLineEdit *search_folder_input;
@@ -57,4 +61,4 @@ private:
 
 };
 
-#endif //DUPLICATE_IMAGE_FINDER_WINDOW_H
+#endif //DUPLICATE_IMAGE_FINDER_MAINWINDOW_H

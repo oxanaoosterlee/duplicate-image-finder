@@ -7,6 +7,10 @@
 
 using namespace std;
 
+ComparisonAlgorithm::~ComparisonAlgorithm(){
+
+}
+
 // Calculates the IMED between two images
 double ComparisonAlgorithm::CalculateIMED(cv::Mat image1, cv::Mat image2){
     double euclidian_distance = 0;

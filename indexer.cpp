@@ -52,3 +52,7 @@ std::vector<Image> ImageIndexer::GenerateAllImagesList(std::string root_path){
     }
     return image_list;
 }
+
+ImageIndexer::~ImageIndexer() {
+
+}
