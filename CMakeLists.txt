@@ -11,11 +11,11 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(OpenCV REQUIRED )
+find_package(OpenCV REQUIRED)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
-if ( NOT Qt5_FOUND )
+if (NOT Qt5_FOUND)
     message(FATAL_ERROR "Package QT not found!")
-endif( )
+endif ()
 
 
 # add the binary tree to the search path for include files
@@ -25,12 +25,10 @@ include_directories("${PROJECT_BINARY_DIR}" ${Qt5Widgets_INCLUDES})
 #add_definitions(${Qt5Widgets_DEFINITIONS})
 
 
-
-
 add_executable(Project
         main.cpp
-        indexer.cpp
-        comparison_algorithm.cpp Image.cpp GUI/MainWindow.cpp GUI/MainWindow.h)
+        ImageIndexer.cpp
+        Algorithm.cpp Image.cpp GUI/MainWindow.cpp DuplicateVector.cpp GUI/ImagePreview.cpp GUI/ImagePreview.h GUI/MiniaturePreview.cpp GUI/MiniaturePreview.h GUI/ImageInfo.cpp GUI/ImageInfo.h)
 
 
 target_link_libraries(Project ${Qt5Widgets_LIBRARIES} ${OpenCV_LIBS} -lstdc++fs)

@@ -11,6 +11,13 @@
 #include <QtGui>
 #include <QtWidgets>
 #include "../Image.h"
+#include "../Algorithm.h"
+#include "../DuplicateVector.h"
+#include "../ImageIndexer.h"
+#include "ImagePreview.h"
+#include "MiniaturePreview.h"
+#include "ImageInfo.h"
+
 
 class MainWindow : public QWidget {
 
@@ -27,37 +34,26 @@ public slots:
     void prevButtonClicked();
 
 private:
-
-    void createImagePreviewGroupbox();
-    void createMiniatureGroupBox();
-    void createImageInfoGroupBox();
     void createNavigationGroupBox();
 
-    QLabel* addMiniature(QString path);
-    void updateMiniatures();
-    void updateImageInfo();
-    void updateImagePreview(QString left_path, QString right_path);
 
     QVBoxLayout *main_layout;
-    QGroupBox *image_preview_groupbox;
-    QGroupBox *image_info_groupbox;
-    QGroupBox *miniature_groupbox;
-    QGroupBox *button_bar_groupbox;
 
-    QLabel* image_left;
-    QLabel* image_right;
-    QLabel* image_1_text;
-    QLabel* image_2_text;
-    QLabel* label_text;
 
-    QHBoxLayout *miniatureLayout;
+    ImageIndexer *image_indexer;
+    ImagePreview image_preview;
+    MiniaturePreview miniature_preview;
+    ImageInfo image_info;
+
 
     QPushButton *search_button;
     QLineEdit *search_folder_input;
+    QGroupBox *button_bar_groupbox;
 
-    std::vector<Image> all_images;
-    std::vector<Image>::iterator first_image_ptr;
-    std::vector<Image::duplicate_image_t>::iterator second_image_ptr;
+
+    int duplicate_vector_index;
+
+
 
 };
 

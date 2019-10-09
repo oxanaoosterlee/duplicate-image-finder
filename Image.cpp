@@ -1,64 +1,35 @@
 //
+
 // Created by oxana on 24-9-19.
 //
 
 #include "Image.h"
-#include <QtCore>
-
+#include <utility>
 
 Image::Image(cv::Mat image, QString path_name) {
-    image_ = image;
-    path_ = path_name;
+    image_ = std::move(image);
+    path_ = std::move(path_name);
 }
 
-void Image::addDuplicateImage(QString path, double percentage) {
-    duplicate_image_t new_duplicate_image;
-    new_duplicate_image.path = path;
-    new_duplicate_image.percentage = percentage;
-    duplicate_images_.push_back(new_duplicate_image);
 
-}
+Image::~Image() = default;
 
-const cv::Mat &Image::getImage() {
-    return image_;
-}
 
-const std::string Image::getPathString() {
-    return path_.toStdString();
-}
-
-const QString & Image::getPath() const {
+const QString &Image::getPathQString() {
     return path_;
 }
 
-void Image::printDuplicates() {
-    if (duplicate_images_.empty()){
-        std::cout << getFileNameString() << " has no duplicates! \n";
-    }
-    else {
-        std::cout << getFileNameString() << " has duplicates: \n";
-        for (const auto& duplicate : duplicate_images_){
-            std::cout << duplicate.path.toStdString() << " (" << (1-duplicate.percentage)*100 << "%)" "\n";
-        }
-    }
-
+const std::string Image::getPathStdString() {
+    return path_.toStdString();
 }
 
-const std::string Image::getFileNameString() {
+const std::string Image::getFilenameStdString() {
     QFileInfo info = QFileInfo(path_);
     return info.fileName().toStdString();
 }
 
-std::vector<Image::duplicate_image_t>* Image::getDuplicateImages() {
-    return &duplicate_images_;
-}
 
-double Image::getDuplicateImagesAmt() {
-    return duplicate_images_.size();
-}
-
-std::vector<Image::duplicate_image_t, std::allocator<Image::duplicate_image_t>>::iterator
-Image::getDuplicateImagesIterator() {
-    return duplicate_images_.begin();
+const cv::Mat &Image::getImage() {
+    return image_;
 }
 
