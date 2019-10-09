@@ -32,6 +32,7 @@ public slots:
     void nextButtonClicked();
     void searchButtonClicked();
     void prevButtonClicked();
+    void selectFolderButtonClicked();
 
 private:
     void createNavigationGroupBox();
@@ -46,7 +47,6 @@ private:
     ImageInfo image_info;
 
 
-    QPushButton *search_button;
     QLineEdit *search_folder_input;
     QGroupBox *button_bar_groupbox;
 
@@ -54,6 +54,11 @@ private:
     int duplicate_vector_index;
 
 
+    QPushButton *search_button;
+    QPushButton *next_button;
+    QPushButton *prev_button;
+
+    QLabel *updateMessage;
 
 };
 

@@ -31,6 +31,7 @@ public:
 
     int getNumberOfDuplicateVectors();
 
+
 private:
     std::vector<Image> *indexed_images_;
     std::vector<DuplicateVector> *duplicate_vectors_;
@@ -39,6 +40,7 @@ private:
     QStringList indexed_extensions = {"*.jpg", "*.JPG", "*.PNG",
                                       "*.png"}; //todo: add more indexed_extensions if necessary
     static cv::Mat LoadAndResizeImage(const std::string &filename);
+
 
 };
 

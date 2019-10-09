@@ -54,14 +54,14 @@ cv::Mat ImageIndexer::LoadAndResizeImage(const std::string &filename) {
 void ImageIndexer::generateDuplicateVectors() {
     std::cout << "Generating duplicate vectors \n";
 
-    double treshold = 0.2;
+    double treshold = 0.1;
     double euclidian_distance;
-
     for (auto img1_ptr = indexed_images_->begin(); img1_ptr < indexed_images_->end(); ++img1_ptr) {
         DuplicateVector new_duplicate_vector;
         for (auto img2_ptr = next(img1_ptr); img2_ptr < indexed_images_->end(); ++img2_ptr) {
             euclidian_distance = Algorithm::calculateEuclidianDistance(img1_ptr->getImage(), img2_ptr->getImage());
-            std::cout << "Comparing " << img1_ptr->getFilenameStdString() << " to " << img2_ptr->getFilenameStdString()
+            std::cout << "Comparing " << img1_ptr->getFilenameStdString() << " to "
+                      << img2_ptr->getFilenameStdString()
                       << ": " << (1 - euclidian_distance) * 100 << "% \n";
             if (euclidian_distance < treshold) {
                 new_duplicate_vector.addDuplicate(*img2_ptr);
@@ -81,10 +81,11 @@ void ImageIndexer::generateDuplicateVectors() {
     delete indexed_images_;
     printAllDuplicates();
     std::cout << "Done generating duplicate vectors \n";
+    return;
 }
 
 
-void ImageIndexer::DisplayImage(const cv::Mat& image) {
+void ImageIndexer::DisplayImage(const cv::Mat &image) {
     cv::namedWindow("Display window", cv::WINDOW_AUTOSIZE);// Create a window for display.
     cv::imshow("Display window", image);                   // Show our image inside it.
     cv::waitKey(0);

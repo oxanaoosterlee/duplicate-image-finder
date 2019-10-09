@@ -3,7 +3,7 @@
 //
 
 #include "MainWindow.h"
-
+#include <thread>
 
 MainWindow::MainWindow(QWidget *parent) :
         QWidget(parent) {
@@ -21,10 +21,12 @@ MainWindow::MainWindow(QWidget *parent) :
     main_layout->addWidget(miniature_preview.getWidget());
     main_layout->addWidget(image_info.getWidget());
     main_layout->addWidget(button_bar_groupbox);
+    main_layout->addWidget(updateMessage);
+
 
     image_indexer = new ImageIndexer();
     setLayout(main_layout);
-    setWindowTitle("test");
+    setWindowTitle("Similar Image Finder");
 
 
 }
@@ -34,24 +36,34 @@ void MainWindow::createNavigationGroupBox() {
     button_bar_groupbox = new QGroupBox;
     QHBoxLayout *layout = new QHBoxLayout;
 
-    QPushButton *search_button = new QPushButton("Search", this);
-    QPushButton *next_button = new QPushButton("Next", this);
-    QPushButton *prev_button = new QPushButton("Previous", this);
+    QPushButton *select_folder_button = new QPushButton("Select folder", this);
+    search_folder_input = new QLineEdit(this);
+    search_button = new QPushButton("Search", this);
+    next_button = new QPushButton("Next", this);
+    prev_button = new QPushButton("Previous", this);
 
+
+    layout->addWidget(select_folder_button);
+    layout->addWidget(search_folder_input);
     layout->addWidget(search_button);
     layout->addWidget(prev_button);
     layout->addWidget(next_button);
 
+    search_folder_input->setReadOnly(true);
+
     connect(next_button, &QPushButton::clicked, this, &MainWindow::nextButtonClicked);
     connect(search_button, &QPushButton::clicked, this, &MainWindow::searchButtonClicked);
     connect(prev_button, &QPushButton::clicked, this, &MainWindow::prevButtonClicked);
+    connect(select_folder_button, &QPushButton::clicked, this, &MainWindow::selectFolderButtonClicked);
 
     button_bar_groupbox->setLayout(layout);
 }
 
 void MainWindow::searchButtonClicked() {
-    std::string path = "/home/oxana/Documents/Projects/Duplicate Image Search/Images";
-    image_indexer->setPath(QString::fromStdString(path));
+    // std::string path = "/home/oxana/Documents/Projects/Duplicate Image Search/Images";
+    //image_indexer->setPath(QString::fromStdString(path));
+
+    image_indexer->setPath(search_folder_input->text());
     image_indexer->indexImages();
     image_indexer->generateDuplicateVectors();
     duplicate_vector_index = 0;
@@ -63,7 +75,6 @@ void MainWindow::searchButtonClicked() {
     image_preview.update(left_image, right_image);
     miniature_preview.update(duplicateVector);
     image_info.update(left_image, right_image);
-
 
 }
 
@@ -84,8 +95,6 @@ void MainWindow::nextButtonClicked() {
     miniature_preview.update(duplicateVector);
     image_info.update(left_image, right_image);
 
-    //std::cout << "left image: " << left_image->getPathStdString() << "\n";
-    //std::cout << "right image: " << right_image->getPathStdString() << "\n";
     std::cout << "Finished" << "\n";
 }
 
@@ -103,6 +112,12 @@ void MainWindow::prevButtonClicked() {
     image_preview.update(left_image, right_image);
     miniature_preview.update(duplicateVector);
     image_info.update(left_image, right_image);
+}
+
+void MainWindow::selectFolderButtonClicked() {
+    std::cout << "Select folder button clicked" << "\n";
+    QString dirname = QFileDialog::getExistingDirectory(this, tr("Select search root folder"), "/home" );
+    search_folder_input->setText(dirname);
 }
 
 

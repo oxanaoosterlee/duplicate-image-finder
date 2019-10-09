@@ -53,7 +53,7 @@ void ImageInfo::update(Image *left_image, Image *right_image) {
                          right_image_info.birthTime().toString("dd'-'MM'-'yyyy '  'HH':'mm':'ss") + "\n";
 
     //todo: calculate percentage
-    double percentage = Algorithm::calculateEuclidianDistance(left_image->getImage(), right_image->getImage());
+    double percentage = (1.0 - Algorithm::calculateEuclidianDistance(left_image->getImage(), right_image->getImage()))*100;
     QString label_info = QString::number(percentage, 'f', 2) + "% similar" + "\n" +
                          "Directory" + "\n" +
                          "File size" + "\n" +
