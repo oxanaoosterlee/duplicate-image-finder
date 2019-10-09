@@ -42,6 +42,12 @@ void MainWindow::createNavigationGroupBox() {
     next_button = new QPushButton("Next", this);
     prev_button = new QPushButton("Previous", this);
 
+    // All buttons are initally not pressable.
+    next_button->setEnabled(false);
+    prev_button->setEnabled(false);
+    search_button->setEnabled(false);
+
+
 
     layout->addWidget(select_folder_button);
     layout->addWidget(search_folder_input);
@@ -55,6 +61,7 @@ void MainWindow::createNavigationGroupBox() {
     connect(search_button, &QPushButton::clicked, this, &MainWindow::searchButtonClicked);
     connect(prev_button, &QPushButton::clicked, this, &MainWindow::prevButtonClicked);
     connect(select_folder_button, &QPushButton::clicked, this, &MainWindow::selectFolderButtonClicked);
+
 
     button_bar_groupbox->setLayout(layout);
 }
@@ -76,16 +83,17 @@ void MainWindow::searchButtonClicked() {
     miniature_preview.update(duplicateVector);
     image_info.update(left_image, right_image);
 
+    next_button->setEnabled(true);
+
 }
 
 void MainWindow::nextButtonClicked() {
     std::cout << "Next button clicked" << "\n";
-    if (duplicate_vector_index < image_indexer->getNumberOfDuplicateVectors() - 1) {
-        duplicate_vector_index++;
-    } else {
-        return;
+    duplicate_vector_index++;
+    if (duplicate_vector_index == image_indexer->getNumberOfDuplicateVectors() - 1) {
+        next_button->setEnabled(false);
     }
-
+    prev_button->setEnabled(true);
     DuplicateVector *duplicateVector = image_indexer->getDuplicateVector(duplicate_vector_index);
     Image *left_image = duplicateVector->getDuplicate(0);
     Image *right_image = duplicateVector->getDuplicate(1);
@@ -100,12 +108,11 @@ void MainWindow::nextButtonClicked() {
 
 void MainWindow::prevButtonClicked() {
     std::cout << "Previous button clicked" << "\n";
-    if (duplicate_vector_index > 0) {
-        duplicate_vector_index--;
-    } else {
-        return;
+    duplicate_vector_index--;
+    if (duplicate_vector_index == 0) {
+        prev_button->setEnabled(false);
     }
-
+    next_button->setEnabled(true);
     DuplicateVector *duplicateVector = image_indexer->getDuplicateVector(duplicate_vector_index);
     Image *left_image = duplicateVector->getDuplicate(0);
     Image *right_image = duplicateVector->getDuplicate(1);
@@ -117,8 +124,11 @@ void MainWindow::prevButtonClicked() {
 void MainWindow::selectFolderButtonClicked() {
     std::cout << "Select folder button clicked" << "\n";
     QString dirname = QFileDialog::getExistingDirectory(this, tr("Select search root folder"), "/home" );
-    search_folder_input->setText(dirname);
-}
+    std::cout << "dirname is: "  << dirname.toStdString() << "\n";
+        if (!dirname.isEmpty()){
+        search_folder_input->setText(dirname);
+        search_button->setEnabled(true);
+}       }
 
 
 
