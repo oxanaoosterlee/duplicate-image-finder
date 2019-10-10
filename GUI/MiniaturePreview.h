@@ -10,13 +10,16 @@
 #include <QWidget>
 #include "../Image.h"
 #include "../DuplicateVector.h"
+#include "Miniature.h"
+#include "ImagePreview.h"
 
 class MiniaturePreview {
 public:
     MiniaturePreview();
     virtual ~MiniaturePreview();
     QGroupBox *getWidget();
-    void update(DuplicateVector *duplicate_vector);
+    void update(DuplicateVector *duplicate_vector, ImagePreview *image_preview);
+    QWidget* getMiniature(int pos);
 
 private:
     QGroupBox *miniature_groupbox;
@@ -26,3 +29,4 @@ private:
 
 
 #endif //DUPLICATE_IMAGE_FINDER_MINIATUREPREVIEW_H
+

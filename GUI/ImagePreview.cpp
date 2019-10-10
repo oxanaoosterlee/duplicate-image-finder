@@ -5,10 +5,11 @@
 #include <QtCore/QString>
 #include "ImagePreview.h"
 
-ImagePreview::ImagePreview()   {
+ImagePreview::ImagePreview() {
+
     QString image = "/home/oxana/Documents/Projects/Duplicate Image Search/Images/img4.jpg";
 
-    image_preview_groupbox = new QGroupBox();
+    image_preview_groupbox = new QGroupBox;
     QHBoxLayout *layout = new QHBoxLayout;
 
     QPixmap *qpixmap = new QPixmap;
@@ -42,11 +43,15 @@ void ImagePreview::update(Image *left_image, Image *right_image) {
 
     QPixmap qpixmap1;
     qpixmap1.load(left_image->getPathQString());
-    image_left->setPixmap(qpixmap1.scaled(200,200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    image_left->setPixmap(qpixmap1.scaled(400,400, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
 
     QPixmap qpixmap2;
     qpixmap2.load(right_image->getPathQString());
-    image_right->setPixmap(qpixmap2.scaled(200,200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    image_right->setPixmap(qpixmap2.scaled(400,400, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
+}
+
+void ImagePreview::changeToGrey() {
+    std::cout << "Changed to grey \n";
 }

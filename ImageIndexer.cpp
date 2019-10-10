@@ -54,7 +54,7 @@ cv::Mat ImageIndexer::LoadAndResizeImage(const std::string &filename) {
 void ImageIndexer::generateDuplicateVectors() {
     std::cout << "Generating duplicate vectors \n";
 
-    double treshold = 0.1;
+    double treshold = 0.2;
     double euclidian_distance;
     for (auto img1_ptr = indexed_images_->begin(); img1_ptr < indexed_images_->end(); ++img1_ptr) {
         DuplicateVector new_duplicate_vector;

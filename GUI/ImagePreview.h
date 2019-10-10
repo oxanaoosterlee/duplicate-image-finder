@@ -10,16 +10,19 @@
 #include <QWidget>
 #include "../Image.h"
 
-class ImagePreview {
+class ImagePreview : public QWidget{
+    Q_OBJECT
+
+public slots:
+    void changeToGrey();
 
 public:
     ImagePreview();
-
     virtual ~ImagePreview();
-
     QGroupBox *getWidget();
-
     void update(Image *left_image, Image *right_image);
+
+
 
 private:
     QGroupBox *image_preview_groupbox;

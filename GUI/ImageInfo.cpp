@@ -37,6 +37,8 @@ QGroupBox *ImageInfo::getWidget() {
     return image_info_groupbox;
 }
 
+//todo: make this a grid instead of qstrings!
+
 void ImageInfo::update(Image *left_image, Image *right_image) {
     std::cout << "Updating image info. \n";
     QFileInfo left_image_info = QFileInfo(left_image->getPathQString());

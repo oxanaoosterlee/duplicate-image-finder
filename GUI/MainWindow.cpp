@@ -11,17 +11,17 @@ MainWindow::MainWindow(QWidget *parent) :
     setFixedSize(1000, 800);
     main_layout = new QVBoxLayout;
 
-    image_preview = ImagePreview();
+    image_preview = new ImagePreview;
     miniature_preview = MiniaturePreview();
     image_info = ImageInfo();
     createNavigationGroupBox();
 
     main_layout = new QVBoxLayout;
-    main_layout->addWidget(image_preview.getWidget());
+    main_layout->addWidget(image_preview->getWidget());
     main_layout->addWidget(miniature_preview.getWidget());
     main_layout->addWidget(image_info.getWidget());
     main_layout->addWidget(button_bar_groupbox);
-    main_layout->addWidget(updateMessage);
+    //main_layout->addWidget(updateMessage);
 
 
     image_indexer = new ImageIndexer();
@@ -46,7 +46,6 @@ void MainWindow::createNavigationGroupBox() {
     next_button->setEnabled(false);
     prev_button->setEnabled(false);
     search_button->setEnabled(false);
-
 
 
     layout->addWidget(select_folder_button);
@@ -76,12 +75,7 @@ void MainWindow::searchButtonClicked() {
     duplicate_vector_index = 0;
 
     DuplicateVector *duplicateVector = image_indexer->getDuplicateVector(duplicate_vector_index);
-    Image *left_image = duplicateVector->getDuplicate(0);
-    Image *right_image = duplicateVector->getDuplicate(1);
-
-    image_preview.update(left_image, right_image);
-    miniature_preview.update(duplicateVector);
-    image_info.update(left_image, right_image);
+    updateWindowWithDuplicateVector(duplicateVector);
 
     next_button->setEnabled(true);
 
@@ -95,13 +89,7 @@ void MainWindow::nextButtonClicked() {
     }
     prev_button->setEnabled(true);
     DuplicateVector *duplicateVector = image_indexer->getDuplicateVector(duplicate_vector_index);
-    Image *left_image = duplicateVector->getDuplicate(0);
-    Image *right_image = duplicateVector->getDuplicate(1);
-
-
-    image_preview.update(left_image, right_image);
-    miniature_preview.update(duplicateVector);
-    image_info.update(left_image, right_image);
+    updateWindowWithDuplicateVector(duplicateVector);
 
     std::cout << "Finished" << "\n";
 }
@@ -114,21 +102,33 @@ void MainWindow::prevButtonClicked() {
     }
     next_button->setEnabled(true);
     DuplicateVector *duplicateVector = image_indexer->getDuplicateVector(duplicate_vector_index);
-    Image *left_image = duplicateVector->getDuplicate(0);
-    Image *right_image = duplicateVector->getDuplicate(1);
-    image_preview.update(left_image, right_image);
-    miniature_preview.update(duplicateVector);
-    image_info.update(left_image, right_image);
+    updateWindowWithDuplicateVector(duplicateVector);
+
 }
 
 void MainWindow::selectFolderButtonClicked() {
     std::cout << "Select folder button clicked" << "\n";
-    QString dirname = QFileDialog::getExistingDirectory(this, tr("Select search root folder"), "/home" );
+    QString dirname = QFileDialog::getExistingDirectory(this, tr("Select search root folder"), "/home/oxana/Documents/Projects/Duplicate Image Search/Images" );
     std::cout << "dirname is: "  << dirname.toStdString() << "\n";
         if (!dirname.isEmpty()){
         search_folder_input->setText(dirname);
         search_button->setEnabled(true);
 }       }
+
+void MainWindow::updateWindowWithDuplicateVector(DuplicateVector *duplicate_vector) {
+    image_preview->update(duplicate_vector->getDuplicate(0), duplicate_vector->getDuplicate(1));
+    miniature_preview.update(duplicate_vector, image_preview);
+    image_info.update(duplicate_vector->getDuplicate(0), duplicate_vector->getDuplicate(1));
+
+
+
+
+}
+
+void MainWindow::updateWindowWithImages(Image *left_image, Image *right_image) {
+    image_preview->update(left_image, right_image);
+    image_info.update(left_image, right_image);
+}
 
 
 

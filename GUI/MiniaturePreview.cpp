@@ -3,8 +3,9 @@
 //
 
 #include "MiniaturePreview.h"
+#include "ImagePreview.h"
 
-MiniaturePreview::MiniaturePreview() {
+MiniaturePreview::MiniaturePreview(){
     miniature_groupbox = new QGroupBox();
     layout = new QHBoxLayout();
 
@@ -23,7 +24,7 @@ QGroupBox *MiniaturePreview::getWidget() {
     return miniature_groupbox;
 }
 
-void MiniaturePreview::update(DuplicateVector *duplicate_vector) {
+void MiniaturePreview::update(DuplicateVector *duplicate_vector, ImagePreview *image_preview) {
     std::cout << "Updating miniatures \n";
 
     // Delete all previous miniatures
@@ -33,12 +34,19 @@ void MiniaturePreview::update(DuplicateVector *duplicate_vector) {
 
     double miniaturesAmt = duplicate_vector->getNumberOfDuplicates();
     for (int i = 0; i < miniaturesAmt; i++){
-        QLabel *newMiniature = new QLabel();
+        Miniature* new_miniature = new Miniature(nullptr, duplicate_vector->getDuplicate(i));
+        new_miniature->setAlignment(Qt::AlignCenter);
         QPixmap qpixmap = QPixmap();
         qpixmap.load(duplicate_vector->getDuplicate(i)->getPathQString());
-        newMiniature->setPixmap(qpixmap.scaledToWidth(miniature_width,  Qt::SmoothTransformation));
-        layout->addWidget(newMiniature);
+        new_miniature->setPixmap(qpixmap.scaledToWidth(miniature_width,  Qt::SmoothTransformation));
+        new_miniature->setCursor(Qt::PointingHandCursor);
+        QObject::connect(new_miniature, &Miniature::clicked, image_preview, &ImagePreview::changeToGrey);
+        layout->addWidget(new_miniature);
+
     }
+
+    layout->setSizeConstraint(QLayout::SetFixedSize);
 
     std::cout << "Updating miniatures finished \n";
 }
+

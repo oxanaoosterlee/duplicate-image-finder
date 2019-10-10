@@ -36,13 +36,14 @@ public slots:
 
 private:
     void createNavigationGroupBox();
-
+    void updateWindowWithDuplicateVector(DuplicateVector *duplicate_vector);
+    void updateWindowWithImages(Image* left_image, Image* right_image);
 
     QVBoxLayout *main_layout;
 
 
     ImageIndexer *image_indexer;
-    ImagePreview image_preview;
+    ImagePreview *image_preview;
     MiniaturePreview miniature_preview;
     ImageInfo image_info;
 
