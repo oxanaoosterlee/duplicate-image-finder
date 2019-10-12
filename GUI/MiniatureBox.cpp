@@ -5,14 +5,9 @@
 #include "MiniatureBox.h"
 #include "PreviewBox.h"
 
-MiniatureBox::MiniatureBox(){
-    miniature_groupbox = new QGroupBox();
+MiniatureBox::MiniatureBox(QWidget *parent) : QWidget(parent){
+    miniature_groupbox = new QGroupBox(this);
     layout = new QHBoxLayout();
-
-    QLabel *default_text = new QLabel;
-    default_text->setText("This image only has one duplicate");
-
-    layout->addWidget(default_text);
     miniature_groupbox->setLayout(layout);
 }
 
@@ -28,17 +23,13 @@ void MiniatureBox::update(DuplicateVector *duplicate_vector, PreviewBox *image_p
     std::cout << "Updating miniatures \n";
     miniatures_.clear();
     // Delete all previous miniatures
-    while(layout->itemAt(0) != 0){
+    while(layout->itemAt(0) != nullptr){
         delete layout->itemAt(0)->widget();
     }
 
     double miniaturesAmt = duplicate_vector->getNumberOfDuplicates();
     for (int i = 0; i < miniaturesAmt; i++){
-        MiniatureImage* new_miniature = new MiniatureImage(nullptr, duplicate_vector->getDuplicate(i));
-        QPixmap qpixmap = QPixmap();
-        qpixmap.load(duplicate_vector->getDuplicate(i)->getPathQString());
-        new_miniature->setPixmap(qpixmap.scaledToWidth(miniature_width,  Qt::SmoothTransformation));
-//        QObject::connect(new_miniature, &MiniatureImage::clicked, image_preview, &PreviewBox::miniatureClicked);
+        MiniatureImage* new_miniature = new MiniatureImage(this, duplicate_vector->getDuplicate(i));
         layout->addWidget(new_miniature);
         miniatures_.push_back(new_miniature);
 

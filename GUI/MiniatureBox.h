@@ -24,7 +24,7 @@ public slots:
     void lastClicked(PreviewImage* previewImage, Image* image);
 
 public:
-    MiniatureBox();
+    MiniatureBox(QWidget *parent = nullptr);
     virtual ~MiniatureBox();
     QGroupBox *getWidget();
 
@@ -42,8 +42,10 @@ private:
     // List of all current miniatures shown
     std::vector<MiniatureImage*> miniatures_;
 
-    int miniature_width = 100;
+
     Image* last_clicked_miniature_;
+
+
 };
 
 

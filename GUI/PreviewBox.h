@@ -20,7 +20,7 @@ public slots:
     void receiveMiniatureChange(PreviewImage* preview_image, Image* image);
 
 public:
-    PreviewBox();
+    PreviewBox(QWidget *parent = nullptr);
     virtual ~PreviewBox();
     QGroupBox *getWidget();
     void update(Image *left_image, Image *right_image);

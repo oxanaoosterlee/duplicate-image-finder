@@ -5,15 +5,13 @@
 #include <QtCore/QString>
 #include "PreviewBox.h"
 
-PreviewBox::PreviewBox() {
-
-
+PreviewBox::PreviewBox(QWidget *parent) : QWidget(parent) {
 
     image_preview_groupbox = new QGroupBox;
     QHBoxLayout *layout = new QHBoxLayout;
 
-    image_previews_.push_back(new PreviewImage);
-    image_previews_.push_back(new PreviewImage);
+    image_previews_.push_back(new PreviewImage(this));
+    image_previews_.push_back(new PreviewImage(this));
 
     for (PreviewImage* image_preview : image_previews_ ){
         layout->addWidget(image_preview);

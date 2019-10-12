@@ -25,10 +25,11 @@ signals:
 public:
     explicit MiniatureImage(QWidget *parent=0, Image* image = nullptr);
     void mousePressEvent(QMouseEvent* event);
-
+    void updateImage(Image* image);
 
 private:
     Image* image_;
+    int miniature_width = 100;
 };
 
 

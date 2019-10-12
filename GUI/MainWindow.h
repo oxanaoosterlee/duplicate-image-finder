@@ -43,8 +43,8 @@ private:
 
 
     ImageIndexer *image_indexer;
-    PreviewBox *image_preview;
-    MiniatureBox *miniature_preview;
+    PreviewBox *preview_box;
+    MiniatureBox *miniature_box;
     ImageInfo image_info;
 
 
