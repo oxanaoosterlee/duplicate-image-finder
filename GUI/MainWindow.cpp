@@ -11,20 +11,21 @@ MainWindow::MainWindow(QWidget *parent) :
     setFixedSize(1000, 800);
     main_layout = new QVBoxLayout;
 
-    image_preview = new ImagePreview;
-    miniature_preview = MiniaturePreview();
+    image_preview = new PreviewBox;
+    miniature_preview = new MiniatureBox();
     image_info = ImageInfo();
     createNavigationGroupBox();
 
     main_layout = new QVBoxLayout;
     main_layout->addWidget(image_preview->getWidget());
-    main_layout->addWidget(miniature_preview.getWidget());
+    main_layout->addWidget(miniature_preview->getWidget());
     main_layout->addWidget(image_info.getWidget());
     main_layout->addWidget(button_bar_groupbox);
     //main_layout->addWidget(updateMessage);
 
 
     image_indexer = new ImageIndexer();
+    initConnections();
     setLayout(main_layout);
     setWindowTitle("Similar Image Finder");
 
@@ -117,11 +118,9 @@ void MainWindow::selectFolderButtonClicked() {
 
 void MainWindow::updateWindowWithDuplicateVector(DuplicateVector *duplicate_vector) {
     image_preview->update(duplicate_vector->getDuplicate(0), duplicate_vector->getDuplicate(1));
-    miniature_preview.update(duplicate_vector, image_preview);
+    miniature_preview->update(duplicate_vector, image_preview);
     image_info.update(duplicate_vector->getDuplicate(0), duplicate_vector->getDuplicate(1));
-
-
-
+    updateConnections();
 
 }
 
@@ -131,6 +130,25 @@ void MainWindow::updateWindowWithImages(Image *left_image, Image *right_image) {
 }
 
 
+void MainWindow::updateConnections(){
+    // Each miniature to miniaturebox and previewbox
+    // Each preview image to miniaturebox
+    std::cout << "Update connections \n";
+
+    for (MiniatureImage* miniature : *miniature_preview->getMiniatures()){
+        QObject::connect(miniature, &MiniatureImage::clicked, miniature_preview, &MiniatureBox::rememberLastClicked);
+        connect(miniature, &MiniatureImage::clicked, image_preview, &PreviewBox::makePreviewsClickable);
+    }
 
 
+}
+
+void MainWindow::initConnections(){
+    std::cout << "Init connections \n";
+    for (auto image : *image_preview->getPreviews()){
+        connect(image, &PreviewImage::clicked, miniature_preview, &MiniatureBox::requestLastClicked);
+    }
+    connect(miniature_preview, &MiniatureBox::lastClicked, image_preview, &PreviewBox::receiveMiniatureChange);
+
+}
 

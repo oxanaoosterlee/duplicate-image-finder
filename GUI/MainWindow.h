@@ -14,8 +14,8 @@
 #include "../Algorithm.h"
 #include "../DuplicateVector.h"
 #include "../ImageIndexer.h"
-#include "ImagePreview.h"
-#include "MiniaturePreview.h"
+#include "PreviewBox.h"
+#include "MiniatureBox.h"
 #include "ImageInfo.h"
 
 
@@ -43,8 +43,8 @@ private:
 
 
     ImageIndexer *image_indexer;
-    ImagePreview *image_preview;
-    MiniaturePreview miniature_preview;
+    PreviewBox *image_preview;
+    MiniatureBox *miniature_preview;
     ImageInfo image_info;
 
 
@@ -60,6 +60,9 @@ private:
     QPushButton *prev_button;
 
     QLabel *updateMessage;
+
+    void updateConnections();
+    void initConnections();
 
 };
 

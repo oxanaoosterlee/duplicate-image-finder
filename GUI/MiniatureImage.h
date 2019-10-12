@@ -2,8 +2,8 @@
 // Created by oxana on 10-10-19.
 //
 
-#ifndef DUPLICATE_IMAGE_FINDER_MINIATURE_H
-#define DUPLICATE_IMAGE_FINDER_MINIATURE_H
+#ifndef DUPLICATE_IMAGE_FINDER_MINIATUREIMAGE_H
+#define DUPLICATE_IMAGE_FINDER_MINIATUREIMAGE_H
 
 
 // Implements a clickable miniature
@@ -13,16 +13,18 @@
 #include "../Image.h"
 #include <QObject>
 
-class Miniature : public QLabel {
+class MiniatureImage : public QLabel {
     Q_OBJECT
+
+//public slots:
+//    void userUndoClick();
 
 signals:
     void clicked(Image* image);
 
 public:
-    explicit Miniature(QWidget *parent=0, Image* image = nullptr);
+    explicit MiniatureImage(QWidget *parent=0, Image* image = nullptr);
     void mousePressEvent(QMouseEvent* event);
-
 
 
 private:
@@ -30,4 +32,4 @@ private:
 };
 
 
-#endif //DUPLICATE_IMAGE_FINDER_MINIATURE_H
+#endif //DUPLICATE_IMAGE_FINDER_MINIATUREIMAGE_H
