@@ -4,6 +4,7 @@
 
 #include <QtCore/QString>
 #include "PreviewBox.h"
+#include "DeleteButton.h"
 
 PreviewBox::PreviewBox(QWidget *parent) : QWidget(parent) {
 
@@ -13,8 +14,15 @@ PreviewBox::PreviewBox(QWidget *parent) : QWidget(parent) {
     image_previews_.push_back(new PreviewImage(this));
     image_previews_.push_back(new PreviewImage(this));
 
+
     for (PreviewImage* image_preview : image_previews_ ){
-        layout->addWidget(image_preview);
+        QGroupBox *groupbox = new QGroupBox(image_preview_groupbox);
+        QVBoxLayout *vertical_layout = new QVBoxLayout(image_preview_groupbox);
+        DeleteButton* delete_button = new DeleteButton(image_preview_groupbox, image_preview);
+        vertical_layout->addWidget(image_preview);
+        vertical_layout->addWidget(delete_button);
+        groupbox->setLayout(vertical_layout);
+        layout->addWidget(groupbox);
     }
 
     image_preview_groupbox->setLayout(layout);
@@ -48,9 +56,11 @@ void PreviewBox::receiveMiniatureChange(PreviewImage* preview_image, Image* imag
     std::cout << "Changing preview to selected miniature. \n";
     preview_image->updateImage(image);
     makePreviewsClickable(false);
+    emit(requestInfoUpdate(image_previews_[0]->getImage(), image_previews_[1]->getImage()));
 
 }
 
 std::vector<PreviewImage*>* PreviewBox::getPreviews(){
     return &image_previews_;
 }
+

@@ -19,6 +19,10 @@ public slots:
     void makePreviewsClickable(bool val);
     void receiveMiniatureChange(PreviewImage* preview_image, Image* image);
 
+signals:
+    void requestInfoUpdate(Image* left_image, Image* right_image);
+    void fileDeleted();
+
 public:
     PreviewBox(QWidget *parent = nullptr);
     virtual ~PreviewBox();
@@ -31,6 +35,8 @@ public:
 private:
     QGroupBox* image_preview_groupbox;
     std::vector<PreviewImage*> image_previews_;
+    QPushButton* generateDeleteButton();
+
 };
 
 

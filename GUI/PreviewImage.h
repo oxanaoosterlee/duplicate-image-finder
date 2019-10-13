@@ -24,9 +24,11 @@ signals:
 public:
     PreviewImage(QWidget *parent=0, Image* image = nullptr);
     void mousePressEvent(QMouseEvent* event);
-    void mouseHoverEvent(QHoverEvent *event);
+    void mouseHoverEvent(QHoverEvent* event);
     void setClickable(bool val);
     void updateImage(Image* image);
+    Image* getImage();
+
 
 private:
     Image* image_;

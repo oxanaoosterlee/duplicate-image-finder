@@ -9,9 +9,7 @@
 
 PreviewImage::PreviewImage(QWidget *parent, Image *image) : QLabel(parent) {
     image_ = image;
-
     this->setAlignment(Qt::AlignCenter);
-
     setClickable(false);
 }
 
@@ -41,5 +39,9 @@ void PreviewImage::updateImage(Image *image) {
     QPixmap qpixmap;
     qpixmap.load(image_->getPathQString());
     this->setPixmap(qpixmap.scaled(400,400, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+}
 
+
+Image *PreviewImage::getImage() {
+    return image_;
 }

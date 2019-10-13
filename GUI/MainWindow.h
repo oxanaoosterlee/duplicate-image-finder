@@ -16,7 +16,8 @@
 #include "../ImageIndexer.h"
 #include "PreviewBox.h"
 #include "MiniatureBox.h"
-#include "ImageInfo.h"
+#include "InfoBox.h"
+#include "NavigationBox.h"
 
 
 class MainWindow : public QWidget {
@@ -32,10 +33,10 @@ public slots:
     void nextButtonClicked();
     void searchButtonClicked();
     void prevButtonClicked();
-    void selectFolderButtonClicked();
+
 
 private:
-    void createNavigationGroupBox();
+    //void createNavigationGroupBox();
     void updateWindowWithDuplicateVector(DuplicateVector *duplicate_vector);
     void updateWindowWithImages(Image* left_image, Image* right_image);
 
@@ -45,7 +46,8 @@ private:
     ImageIndexer *image_indexer;
     PreviewBox *preview_box;
     MiniatureBox *miniature_box;
-    ImageInfo image_info;
+    InfoBox *info_box;
+    NavigationBox* navigation_box;
 
 
     QLineEdit *search_folder_input;

@@ -9,6 +9,7 @@ MiniatureBox::MiniatureBox(QWidget *parent) : QWidget(parent){
     miniature_groupbox = new QGroupBox(this);
     layout = new QHBoxLayout();
     miniature_groupbox->setLayout(layout);
+    miniature_groupbox->setAlignment(Qt::AlignCenter);
 }
 
 MiniatureBox::~MiniatureBox() {
