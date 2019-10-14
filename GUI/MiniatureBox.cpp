@@ -5,11 +5,24 @@
 #include "MiniatureBox.h"
 #include "PreviewBox.h"
 
-MiniatureBox::MiniatureBox(QWidget *parent) : QWidget(parent){
+MiniatureBox::MiniatureBox(QWidget *parent) : QGroupBox(parent){
+    QHBoxLayout* completeLayout = new QHBoxLayout();
     miniature_groupbox = new QGroupBox(this);
     layout = new QHBoxLayout();
+    layout->setAlignment(layout, Qt::AlignTop);
     miniature_groupbox->setLayout(layout);
-    miniature_groupbox->setAlignment(Qt::AlignCenter);
+    miniature_groupbox->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+
+    // Make miniaturebox scrollable
+    scroll_area = new QScrollArea(this);
+    scroll_area->setFixedSize(400, 150);
+    scroll_area->setWidget(miniature_groupbox);
+    scroll_area->setWidgetResizable(true);
+
+    completeLayout->addWidget(scroll_area, Qt::AlignLeft);
+    completeLayout->addStretch();
+    this->setLayout(completeLayout);
+
 }
 
 MiniatureBox::~MiniatureBox() {
@@ -36,7 +49,7 @@ void MiniatureBox::update(DuplicateVector *duplicate_vector, PreviewBox *image_p
 
     }
 
-    layout->setSizeConstraint(QLayout::SetFixedSize);
+    //layout->setSizeConstraint(QLayout::SetFixedSize);
 
     std::cout << "Updating miniatures finished \n";
 }
@@ -53,4 +66,10 @@ void MiniatureBox::requestLastClicked(PreviewImage *previewImage) {
 
 std::vector<MiniatureImage *> *MiniatureBox::getMiniatures() {
     return &miniatures_;
+}
+
+void MiniatureBox::updateCheckboxes() {
+    for (auto miniature : miniatures_){
+        miniature->updateCheckbox();
+    }
 }

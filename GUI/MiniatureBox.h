@@ -13,12 +13,13 @@
 #include "MiniatureImage.h"
 #include "PreviewBox.h"
 
-class MiniatureBox :  public QWidget{
+class MiniatureBox :  public QGroupBox{
     Q_OBJECT
 
 public slots:
     void rememberLastClicked(Image* image);
     void requestLastClicked(PreviewImage* previewImage);
+    void updateCheckboxes();
 
     signals:
     void lastClicked(PreviewImage* previewImage, Image* image);
@@ -38,7 +39,7 @@ public:
 private:
     QGroupBox *miniature_groupbox;
     QHBoxLayout *layout;
-
+    QScrollArea* scroll_area;
     // List of all current miniatures shown
     std::vector<MiniatureImage*> miniatures_;
 

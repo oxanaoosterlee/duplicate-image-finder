@@ -53,7 +53,7 @@ void PreviewBox::makePreviewsClickable(bool val = true) {
 }
 
 void PreviewBox::receiveMiniatureChange(PreviewImage* preview_image, Image* image) {
-    std::cout << "Changing preview to selected miniature. \n";
+    std::cout << "Changing preview to selected_ miniature. \n";
     preview_image->updateImage(image);
     makePreviewsClickable(false);
     emit(requestInfoUpdate(image_previews_[0]->getImage(), image_previews_[1]->getImage()));
@@ -64,3 +64,9 @@ std::vector<PreviewImage*>* PreviewBox::getPreviews(){
     return &image_previews_;
 }
 
+
+void PreviewBox::updateCheckboxes() {
+    for (auto image : image_previews_){
+        image->updateCheckbox();
+    }
+}

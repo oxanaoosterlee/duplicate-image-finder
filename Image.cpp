@@ -9,6 +9,7 @@
 Image::Image(cv::Mat image, QString path_name) {
     image_ = std::move(image);
     path_ = std::move(path_name);
+    selected_ = Qt::Unchecked;
 }
 
 
@@ -31,5 +32,13 @@ const std::string Image::getFilenameStdString() {
 
 const cv::Mat &Image::getImage() {
     return image_;
+}
+
+Qt::CheckState Image::getSelected() const {
+    return selected_;
+}
+
+void Image::setSelected(Qt::CheckState selected) {
+    selected_ = selected;
 }
 

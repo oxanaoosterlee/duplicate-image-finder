@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     main_layout = new QVBoxLayout;
     main_layout->addWidget(preview_box->getWidget());
     main_layout->addWidget(info_box);
-    main_layout->addWidget(miniature_box->getWidget());
+    main_layout->addWidget(miniature_box);
     main_layout->addWidget(navigation_box);
     //main_layout->addWidget(updateMessage);
     setLayout(main_layout);
@@ -96,6 +96,7 @@ void MainWindow::updateConnections(){
     for (MiniatureImage* miniature : *miniature_box->getMiniatures()){
         QObject::connect(miniature, &MiniatureImage::clicked, miniature_box, &MiniatureBox::rememberLastClicked);
         connect(miniature, &MiniatureImage::clicked, preview_box, &PreviewBox::makePreviewsClickable);
+        connect(miniature, &MiniatureImage::signalCheckBoxChange, preview_box, &PreviewBox::updateCheckboxes);
     }
 }
 
@@ -105,7 +106,16 @@ void MainWindow::initConnections(){
     // Miniature / preview images
     for (auto image : *preview_box->getPreviews()){
         connect(image, &PreviewImage::clicked, miniature_box, &MiniatureBox::requestLastClicked);
+        connect(image, &PreviewImage::signalCheckBoxChange, miniature_box, &MiniatureBox::updateCheckboxes);
     }
+
+    for (MiniatureImage* miniature : *miniature_box->getMiniatures()){
+        QObject::connect(miniature, &MiniatureImage::clicked, miniature_box, &MiniatureBox::rememberLastClicked);
+        connect(miniature, &MiniatureImage::clicked, preview_box, &PreviewBox::makePreviewsClickable);
+        connect(miniature, &MiniatureImage::signalCheckBoxChange, preview_box, &PreviewBox::updateCheckboxes);
+    }
+
+
     connect(miniature_box, &MiniatureBox::lastClicked, preview_box, &PreviewBox::receiveMiniatureChange);
     connect(preview_box, &PreviewBox::requestInfoUpdate, info_box, &InfoBox::update);
 

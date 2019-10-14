@@ -18,6 +18,8 @@ class PreviewBox : public QWidget{
 public slots:
     void makePreviewsClickable(bool val);
     void receiveMiniatureChange(PreviewImage* preview_image, Image* image);
+    void updateCheckboxes();
+
 
 signals:
     void requestInfoUpdate(Image* left_image, Image* right_image);

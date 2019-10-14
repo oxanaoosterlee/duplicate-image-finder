@@ -27,6 +27,10 @@ public:
 private:
     cv::Mat image_;
     QString path_ ;
+    Qt::CheckState selected_;
+public:
+    Qt::CheckState getSelected() const;
+    void setSelected(Qt::CheckState selected);
 };
 
 
