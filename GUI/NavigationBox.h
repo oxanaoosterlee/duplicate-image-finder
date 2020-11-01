@@ -11,8 +11,10 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QHBoxLayout>
+#include <QTextStream>
 #include <stdio.h>
 #include <QFileDialog>
+#include <QtWidgets/QLabel>
 
 class NavigationBox : public QGroupBox {
     Q_OBJECT
@@ -24,23 +26,25 @@ public slots:
 public:
     NavigationBox(QWidget *parent = nullptr);
 
-    QPushButton *getSearchBtn() const;
+    QPushButton *get_search_btn() const;
+    QPushButton *get_next_btn() const;
+    QPushButton *get_prev_btn() const;
 
-    QPushButton *getNextBtn() const;
+    QString get_search_dir();
 
-    QPushButton *getPrevBtn() const;
-
-    QString getSearchFolder();
+    void update_index_label(int current_index, int total);
 
 private:
     QHBoxLayout* layout;
 
-    QPushButton* select_folder_btn;
+    QPushButton* select_dir_btn;
     QPushButton* search_btn;
     QPushButton* next_btn;
     QPushButton* prev_btn;
 
-    QLineEdit* search_folder_lineedit;
+    QLineEdit* search_dir_line;
+
+    QLabel* index_label;
 
     void selectFolderButtonClicked();
 };

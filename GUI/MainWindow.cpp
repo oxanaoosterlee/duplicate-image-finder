@@ -36,7 +36,7 @@ void MainWindow::searchButtonClicked() {
     // std::string path = "/home/oxana/Documents/Projects/Duplicate Image Search/Images";
     //image_indexer->setPath(QString::fromStdString(path));
 
-    image_indexer->setPath(navigation_box->getSearchFolder());
+    image_indexer->setPath(navigation_box->get_search_dir());
     image_indexer->indexImages();
     image_indexer->generateDuplicateVectors();
     duplicate_vector_index = 0;
@@ -44,7 +44,7 @@ void MainWindow::searchButtonClicked() {
     DuplicateVector *duplicateVector = image_indexer->getDuplicateVector(duplicate_vector_index);
     updateWindowWithDuplicateVector(duplicateVector);
 
-    navigation_box->getNextBtn()->setEnabled(true);
+    navigation_box->get_next_btn()->setEnabled(true);
 
 }
 
@@ -52,9 +52,9 @@ void MainWindow::nextButtonClicked() {
     std::cout << "Next button clicked" << "\n";
     duplicate_vector_index++;
     if (duplicate_vector_index == image_indexer->getNumberOfDuplicateVectors() - 1) {
-        navigation_box->getNextBtn()->setEnabled(false);
+        navigation_box->get_next_btn()->setEnabled(false);
     }
-    navigation_box->getPrevBtn()->setEnabled(true);
+    navigation_box->get_prev_btn()->setEnabled(true);
     DuplicateVector *duplicateVector = image_indexer->getDuplicateVector(duplicate_vector_index);
     updateWindowWithDuplicateVector(duplicateVector);
 
@@ -65,9 +65,9 @@ void MainWindow::prevButtonClicked() {
     std::cout << "Previous button clicked" << "\n";
     duplicate_vector_index--;
     if (duplicate_vector_index == 0) {
-        navigation_box->getPrevBtn()->setEnabled(false);
+        navigation_box->get_prev_btn()->setEnabled(false);
     }
-    navigation_box->getNextBtn()->setEnabled(true);
+    navigation_box->get_next_btn()->setEnabled(true);
     DuplicateVector *duplicateVector = image_indexer->getDuplicateVector(duplicate_vector_index);
     updateWindowWithDuplicateVector(duplicateVector);
 
@@ -78,6 +78,7 @@ void MainWindow::updateWindowWithDuplicateVector(DuplicateVector *duplicate_vect
     preview_box->update(duplicate_vector->getDuplicate(0), duplicate_vector->getDuplicate(1));
     miniature_box->update(duplicate_vector, preview_box);
     info_box->update(duplicate_vector->getDuplicate(0), duplicate_vector->getDuplicate(1));
+    navigation_box->update_index_label(duplicate_vector_index, image_indexer->getNumberOfDuplicateVectors());
     updateConnections();
 
 }
@@ -120,8 +121,8 @@ void MainWindow::initConnections(){
     connect(preview_box, &PreviewBox::requestInfoUpdate, info_box, &InfoBox::update);
 
     // Navigation buttons
-    connect(navigation_box->getNextBtn(), &QPushButton::clicked, this, &MainWindow::nextButtonClicked);
-    connect(navigation_box->getSearchBtn(), &QPushButton::clicked, this, &MainWindow::searchButtonClicked);
-    connect(navigation_box->getPrevBtn(), &QPushButton::clicked, this, &MainWindow::prevButtonClicked);
+    connect(navigation_box->get_next_btn(), &QPushButton::clicked, this, &MainWindow::nextButtonClicked);
+    connect(navigation_box->get_search_btn(), &QPushButton::clicked, this, &MainWindow::searchButtonClicked);
+    connect(navigation_box->get_prev_btn(), &QPushButton::clicked, this, &MainWindow::prevButtonClicked);
 }
 
