@@ -36,3 +36,9 @@
 
 #CMake
 cmake-build-debug
+CMakeFiles
+Project_autogen
+Makefile
+Project
+CMakeCache.txt
+cmake_install.cmake

@@ -28,7 +28,7 @@ include_directories("${PROJECT_BINARY_DIR}" ${Qt5Widgets_INCLUDES})
 add_executable(Project
         main.cpp
         ImageIndexer.cpp
-        Algorithm.cpp Image.cpp GUI/MainWindow.cpp DuplicateVector.cpp GUI/PreviewBox.cpp GUI/PreviewBox.h GUI/MiniatureBox.cpp GUI/MiniatureBox.h GUI/InfoBox.cpp GUI/InfoBox.h GUI/UpdateMessageBox.cpp GUI/UpdateMessageBox.h GUI/MiniatureImage.cpp GUI/MiniatureImage.h GUI/PreviewImage.cpp GUI/PreviewImage.h GUI/DeleteButton.cpp GUI/DeleteButton.h GUI/NavigationBox.cpp GUI/NavigationBox.h)
+        Algorithm.cpp Image.cpp GUI/MainWindow.cpp DuplicateVector.cpp GUI/PreviewBox.cpp GUI/PreviewBox.h GUI/MiniatureBox.cpp GUI/MiniatureBox.h GUI/InfoBox.cpp GUI/InfoBox.h GUI/MiniatureImage.cpp GUI/MiniatureImage.h GUI/PreviewImage.cpp GUI/PreviewImage.h GUI/DeleteButton.cpp GUI/DeleteButton.h GUI/NavigationBox.cpp GUI/NavigationBox.h)
 
 
 target_link_libraries(Project ${Qt5Widgets_LIBRARIES} ${OpenCV_LIBS} -lstdc++fs)
